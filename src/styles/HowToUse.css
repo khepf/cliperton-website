@@ -1,0 +1,167 @@
+/* HowToUse.css */
+
+.how-to-use {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 100px 0;
+  width: 100%;
+  position: relative;
+}
+
+.steps-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.step-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.step-icon {
+  font-size: 2rem;
+  background: white;
+  padding: 12px;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.step-content {
+  flex: 1;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-top: 8px;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  color: #7f8c8d;
+  line-height: 1.6;
+}
+
+.step-connector {
+  position: absolute;
+  left: 25px;
+  top: 50px;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(to bottom, #3498db, #e9ecef);
+  z-index: -1;
+}
+
+.step:last-child .step-connector {
+  display: none;
+}
+
+.keyboard-shortcuts {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-top: 3rem;
+}
+
+.shortcuts-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.key-combo {
+  background: #2c3e50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 2px 4px rgba(44, 62, 80, 0.3);
+}
+
+.shortcut-description {
+  color: #7f8c8d;
+  margin-left: 1rem;
+  font-weight: 500;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .how-to-use {
+    padding: 80px 0;
+  }
+
+  .step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .step-visual {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .step-content {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .step-connector {
+    display: none;
+  }
+
+  .shortcut {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .shortcut-description {
+    margin-left: 0;
+  }
+}
