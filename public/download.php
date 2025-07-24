@@ -23,9 +23,16 @@ $logFile = __DIR__ . '/download_log.txt';
 // Available downloads
 $availableDownloads = [
     'windows' => [
-        'file' => 'Cliperton Setup 1.0.0.zip',
-        'mime' => 'application/zip',
-        'size' => filesize($downloadPath . 'Cliperton Setup 1.0.0.zip') ?: 0
+        'free' => [
+            'file' => 'Cliperton Setup 1.0.0.zip',
+            'mime' => 'application/zip',
+            'size' => filesize($downloadPath . 'Cliperton Setup 1.0.0.zip') ?: 0
+        ],
+        'pro' => [
+            'file' => 'Cliperton Pro Setup 1.0.0.zip',
+            'mime' => 'application/zip',
+            'size' => filesize($downloadPath . 'Cliperton Pro Setup 1.0.0.zip') ?: 0
+        ]
     ]
 ];
 
@@ -80,6 +87,7 @@ try {
         
         $platform = $input['platform'];
         $version = $input['version'] ?? '1.0.0';
+        $type = $input['type'] ?? 'free'; // 'free' or 'pro'
         
         // Check if platform is supported
         if (!isset($availableDownloads[$platform])) {
@@ -88,13 +96,20 @@ try {
             exit;
         }
         
-        $download = $availableDownloads[$platform];
+        // Check if download type is supported
+        if (!isset($availableDownloads[$platform][$type])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Unsupported download type']);
+            exit;
+        }
+        
+        $download = $availableDownloads[$platform][$type];
         $filePath = $downloadPath . $download['file'];
         
         // Log the download
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
-        logDownload($platform, $userAgent, $ip);
+        logDownload($platform . '_' . $type, $userAgent, $ip);
         
         // Serve the file
         serveDownload($filePath, $download['file'], $download['mime']);
@@ -102,13 +117,16 @@ try {
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Return available downloads info
         $downloads = [];
-        foreach ($availableDownloads as $platform => $info) {
-            $filePath = $downloadPath . $info['file'];
-            $downloads[$platform] = [
-                'available' => file_exists($filePath),
-                'size' => file_exists($filePath) ? filesize($filePath) : 0,
-                'file' => $info['file']
-            ];
+        foreach ($availableDownloads as $platform => $types) {
+            $downloads[$platform] = [];
+            foreach ($types as $type => $info) {
+                $filePath = $downloadPath . $info['file'];
+                $downloads[$platform][$type] = [
+                    'available' => file_exists($filePath),
+                    'size' => file_exists($filePath) ? filesize($filePath) : 0,
+                    'file' => $info['file']
+                ];
+            }
         }
         
         echo json_encode([
