@@ -1,0 +1,11 @@
+[
+    {
+        "license_key": "CLIP-TEST-1234-5678",
+        "email": "test@example.com",
+        "stripe_session_id": "cs_test_example_session_id",
+        "amount_paid": 5,
+        "currency": "USD",
+        "generated_at": "2025-07-24 12:00:00",
+        "status": "active"
+    }
+]
