@@ -18,8 +18,30 @@ try {
     require_once __DIR__ . '/vendor/stripe-php/init.php';
     
     // Get environment variables
-    $stripeSecretKey = getenv('STRIPE_SECRET_KEY') ?: 'sk_test_your_secret_key_here';
-    $webhookSecret = getenv('STRIPE_WEBHOOK_SECRET') ?: 'whsec_your_webhook_secret_here';
+    $stripeSecretKey = getenv('STRIPE_SECRET_KEY');
+    $webhookSecret = getenv('STRIPE_WEBHOOK_SECRET');
+    
+    // Debug logging - check what environment variables we're getting
+    $debugInfo = [
+        'timestamp' => date('Y-m-d H:i:s'),
+        'stripe_key_found' => $stripeSecretKey ? 'YES' : 'NO',
+        'stripe_key_prefix' => $stripeSecretKey ? substr($stripeSecretKey, 0, 8) . '...' : 'NULL',
+        'webhook_secret_found' => $webhookSecret ? 'YES' : 'NO',
+        'webhook_secret_prefix' => $webhookSecret ? substr($webhookSecret, 0, 8) . '...' : 'NULL'
+    ];
+    file_put_contents(__DIR__ . '/webhook_env_debug.txt', json_encode($debugInfo) . "\n", FILE_APPEND | LOCK_EX);
+    
+    if (!$stripeSecretKey) {
+        http_response_code(500);
+        echo json_encode(['error' => 'STRIPE_SECRET_KEY environment variable not found']);
+        exit();
+    }
+    
+    if (!$webhookSecret) {
+        http_response_code(500);
+        echo json_encode(['error' => 'STRIPE_WEBHOOK_SECRET environment variable not found']);
+        exit();
+    }
     
     \Stripe\Stripe::setApiKey($stripeSecretKey);
     

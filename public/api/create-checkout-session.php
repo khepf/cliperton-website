@@ -37,16 +37,27 @@ try {
     // Get Stripe secret key from environment variable
     // Set this in your hosting control panel or .htaccess file
     $stripeSecretKey = getenv('STRIPE_SECRET_KEY');
+    $webhookSecret = getenv('STRIPE_WEBHOOK_SECRET');
+    
+    // Debug logging - check what environment variables we're getting
+    $debugInfo = [
+        'timestamp' => date('Y-m-d H:i:s'),
+        'stripe_key_found' => $stripeSecretKey ? 'YES' : 'NO',
+        'stripe_key_prefix' => $stripeSecretKey ? substr($stripeSecretKey, 0, 8) . '...' : 'NULL',
+        'webhook_secret_found' => $webhookSecret ? 'YES' : 'NO',
+        'webhook_secret_prefix' => $webhookSecret ? substr($webhookSecret, 0, 8) . '...' : 'NULL'
+    ];
+    file_put_contents(__DIR__ . '/env_debug.txt', json_encode($debugInfo) . "\n", FILE_APPEND | LOCK_EX);
     
     if (!$stripeSecretKey) {
-        // Fallback for development - remove in production
-        $stripeSecretKey = 'sk_test_your_secret_key_here';
+        throw new Exception('STRIPE_SECRET_KEY environment variable not found or empty');
+    }
+    
+    if (!$webhookSecret) {
+        throw new Exception('STRIPE_WEBHOOK_SECRET environment variable not found or empty');
     }
     
     \Stripe\Stripe::setApiKey($stripeSecretKey);
-    
-    // Get webhook secret from environment
-    $webhookSecret = getenv('STRIPE_WEBHOOK_SECRET') ?: 'whsec_your_webhook_secret_here';
     
     // Parse request body
     $input = json_decode(file_get_contents('php://input'), true);
