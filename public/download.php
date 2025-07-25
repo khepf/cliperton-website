@@ -24,15 +24,10 @@ $logFile = __DIR__ . '/download_log.txt';
 $availableDownloads = [
     'windows' => [
         'free' => [
-            'file' => 'Cliperton Setup 1.0.0.zip',
+            'file' => 'Cliperton Setup.zip',
             'mime' => 'application/zip',
-            'size' => filesize($downloadPath . 'Cliperton Setup 1.0.0.zip') ?: 0
+            'size' => filesize($downloadPath . 'Cliperton Setup.zip') ?: 0
         ],
-        'pro' => [
-            'file' => 'Cliperton Pro Setup 1.0.0.zip',
-            'mime' => 'application/zip',
-            'size' => filesize($downloadPath . 'Cliperton Pro Setup 1.0.0.zip') ?: 0
-        ]
     ]
 ];
 

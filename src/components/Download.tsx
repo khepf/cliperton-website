@@ -75,13 +75,13 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Cliperton Setup 1.0.0.zip';
+        a.download = 'Cliperton Setup.zip';
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
         
-        trackDownload('Windows Free Version', 'Cliperton Setup 1.0.0.zip');
+        trackDownload('Windows Free Version', 'Cliperton Setup.zip');
         
         setDownloadStatus('success');
         showSuccess(
