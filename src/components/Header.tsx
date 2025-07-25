@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { trackNavigation } from '../utils/analytics';
+import { trackNavigation, trackButtonClick } from '../utils/analytics';
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
@@ -7,10 +7,11 @@ const Header: React.FC = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    trackButtonClick('mobile_menu_toggle', 'header_section', isMenuOpen ? 'Close Menu' : 'Open Menu');
   };
 
   const scrollToSection = (sectionId: string) => {
-    trackNavigation(sectionId);
+    trackNavigation(sectionId, 'header_menu');
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });

@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { trackDownload, trackButtonClick } from '../utils/analytics';
+import { 
+  trackDownloadAttempt, 
+  trackDownloadSuccess, 
+  trackDownloadFailure,
+  trackPurchaseAttempt,
+  trackPurchaseSuccess,
+  trackPurchaseFailure,
+  trackPurchaseCancellation,
+  trackButtonClick 
+} from '../utils/analytics';
 import '../styles/Download.css';
 
 // Initialize Stripe
@@ -25,6 +34,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
                          (hash.includes('payment-cancelled') ? 'cancelled' : null);
 
     if (paymentStatus === 'success' || hash.includes('payment-success')) {
+      trackPurchaseSuccess('Cliperton Pro License', 5, 'usd');
       showSuccess(
         'Payment Successful! 🎉',
         'Your license key has been sent to your email. Check your inbox (and spam folder) for activation instructions.',
@@ -37,6 +47,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     } else if (paymentStatus === 'cancelled' || hash.includes('payment-cancelled')) {
+      trackPurchaseCancellation('Cliperton Pro License', 5, 'usd');
       showInfo(
         'Payment Cancelled',
         'Your payment was cancelled. No charges were made.',
@@ -55,7 +66,8 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
     setDownloadStatus('downloading');
     
     // Track free download attempt
-    trackButtonClick('Free Version Download', 'Download Section');
+    trackDownloadAttempt('free', 'windows');
+    trackButtonClick('download_free_version', 'download_section', 'Download Free');
     
     try {
       const response = await fetch('/download.php', {
@@ -81,7 +93,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
         
-        trackDownload('Windows Free Version', 'Cliperton Setup.zip');
+        trackDownloadSuccess('free', 'Cliperton Setup.zip', 'windows');
         
         setDownloadStatus('success');
         showSuccess(
@@ -95,6 +107,8 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
       }
     } catch (error) {
       console.error('Download error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      trackDownloadFailure('free', errorMessage, 'windows');
       setDownloadStatus('error');
       showError(
         'Download Failed',
@@ -108,8 +122,13 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
   const handleProPurchase = async () => {
     setPurchaseStatus('processing');
     
+    const productPrice = parseInt(import.meta.env.VITE_PRODUCT_PRICE || '500');
+    const productCurrency = import.meta.env.VITE_PRODUCT_CURRENCY || 'usd';
+    const productName = import.meta.env.VITE_PRODUCT_NAME || 'Cliperton Pro License';
+    
     // Track pro purchase attempt
-    trackButtonClick('Pro Version Purchase', 'Download Section');
+    trackPurchaseAttempt(productName, productPrice / 100, productCurrency);
+    trackButtonClick('purchase_pro_version', 'download_section', 'Buy Pro Version ($5)');
 
     showInfo('Payment Processing', 'Redirecting to secure payment page...');
     
@@ -123,9 +142,9 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
       // Call backend to create checkout session
       const requestData = {
         product: 'cliperton-pro',
-        price: parseInt(import.meta.env.VITE_PRODUCT_PRICE || '500'),
-        currency: import.meta.env.VITE_PRODUCT_CURRENCY || 'usd',
-        productName: import.meta.env.VITE_PRODUCT_NAME || 'Cliperton Pro License',
+        price: productPrice,
+        currency: productCurrency,
+        productName: productName,
         successUrl: window.location.origin + '/#payment-success',
         cancelUrl: window.location.origin + '/#payment-cancelled'
       };
@@ -157,6 +176,8 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
       
     } catch (error) {
       console.error('Purchase error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      trackPurchaseFailure(productName, errorMessage, productPrice / 100, productCurrency);
       setPurchaseStatus('error');
       showError(
         'Payment Failed', 

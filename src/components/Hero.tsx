@@ -1,9 +1,10 @@
-import { trackButtonClick } from '../utils/analytics';
+import { trackButtonClick, trackNavigation } from '../utils/analytics';
 import '../styles/Hero.css';
 
 const Hero: React.FC = () => {
   const scrollToDownload = () => {
-    trackButtonClick('Download Now', 'Hero Section');
+    trackButtonClick('hero_download_cta', 'hero_section', 'Download Now');
+    trackNavigation('download', 'button');
     const element = document.getElementById('download');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -11,7 +12,8 @@ const Hero: React.FC = () => {
   };
 
   const scrollToFeatures = () => {
-    trackButtonClick('Learn More', 'Hero Section');
+    trackButtonClick('hero_learn_more_cta', 'hero_section', 'Learn More');
+    trackNavigation('features', 'button');
     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
   };
 

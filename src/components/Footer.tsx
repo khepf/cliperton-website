@@ -1,7 +1,25 @@
+import { trackLinkClick, trackNavigation } from '../utils/analytics';
 import '../styles/Footer.css';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+
+  const handleInternalLink = (sectionId: string, linkText: string) => {
+    trackLinkClick('internal', linkText, `#${sectionId}`, 'footer_section');
+    trackNavigation(sectionId, 'button');
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleExternalLink = (url: string, linkText: string) => {
+    trackLinkClick('external', linkText, url, 'footer_section');
+  };
+
+  const handleEmailLink = (email: string, linkText: string) => {
+    trackLinkClick('email', linkText, email, 'footer_section');
+  };
 
   return (
     <footer className="footer">
@@ -21,27 +39,27 @@ const Footer: React.FC = () => {
           <div className="footer-section">
             <h4 className="footer-title">Features</h4>
             <ul className="footer-links">
-              <li><a href="#features">Perfect for AI Prompts</a></li>
-              <li><a href="#features">Create and Save Your Own Clipboard Groups</a></li>
-              <li><a href="#features">Great for Tedious Copy Paste Tasks</a></li>
-              <li><a href="#features">Works On Any Windows 10 or 11 Device</a></li>
+              <li><a href="#features" onClick={() => handleInternalLink('features', 'Perfect for AI Prompts')}>Perfect for AI Prompts</a></li>
+              <li><a href="#features" onClick={() => handleInternalLink('features', 'Create and Save Your Own Clipboard Groups')}>Create and Save Your Own Clipboard Groups</a></li>
+              <li><a href="#features" onClick={() => handleInternalLink('features', 'Great for Tedious Copy Paste Tasks')}>Great for Tedious Copy Paste Tasks</a></li>
+              <li><a href="#features" onClick={() => handleInternalLink('features', 'Works On Any Windows 10 or 11 Device')}>Works On Any Windows 10 or 11 Device</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
             <h4 className="footer-title">Support</h4>
             <ul className="footer-links">
-              <li><a href="#how-to-use">How to Use</a></li>
-              <li><a href="#download">System Requirements</a></li>
-              <li><a href="mailto:support@cliperton.com">Contact Support</a></li>
-              <li><a href="/privacy.html">Privacy Policy</a></li>
+              <li><a href="#how-to-use" onClick={() => handleInternalLink('how-to-use', 'How to Use')}>How to Use</a></li>
+              <li><a href="#download" onClick={() => handleInternalLink('download', 'System Requirements')}>System Requirements</a></li>
+              <li><a href="mailto:support@cliperton.com" onClick={() => handleEmailLink('support@cliperton.com', 'Contact Support')}>Contact Support</a></li>
+              <li><a href="/privacy.html" onClick={() => handleExternalLink('/privacy.html', 'Privacy Policy')}>Privacy Policy</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
             <h4 className="footer-title">Download</h4>
             <ul className="footer-links">
-              <li><a href="#download">Windows Installer</a></li>
+              <li><a href="#download" onClick={() => handleInternalLink('download', 'Windows Installer')}>Windows Installer</a></li>
               <li><span className="coming-soon-text">macOS (Coming Soon)</span></li>
               <li><span className="coming-soon-text">Linux (Coming Soon)</span></li>
             </ul>
