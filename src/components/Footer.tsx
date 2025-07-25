@@ -14,17 +14,17 @@ const Footer: React.FC = () => {
             </div>
             <p className="footer-description">
               Modern clipboard manager for enhanced productivity. 
-              Never lose copied content again.
+              Access to multiple clipboard items at once. Never lose copied content again.
             </p>
           </div>
 
           <div className="footer-section">
             <h4 className="footer-title">Features</h4>
             <ul className="footer-links">
-              <li><a href="#features">Automatic Monitoring</a></li>
-              <li><a href="#features">Clipboard History</a></li>
-              <li><a href="#features">Global Shortcuts</a></li>
-              <li><a href="#features">Cross-Platform</a></li>
+              <li><a href="#features">Perfect for AI Prompts</a></li>
+              <li><a href="#features">Create and Save Your Own Clipboard Groups</a></li>
+              <li><a href="#features">Great for Tedious Copy Paste Tasks</a></li>
+              <li><a href="#features">Works On Any Windows 10 or 11 Device</a></li>
             </ul>
           </div>
 
@@ -51,10 +51,10 @@ const Footer: React.FC = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="copyright">
-              © {currentYear} Cliperton. All rights reserved.
+              © {currentYear} QCTS. All rights reserved.
             </p>
             <div className="footer-meta">
-              <span className="version">Version 1.0.0</span>
+              <span className="version">Version 2.1.1</span>
               <span className="separator">•</span>
               <a href="/terms.html" className="footer-link">Terms of Service</a>
               <span className="separator">•</span>

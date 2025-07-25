@@ -10,7 +10,7 @@ const Features: React.FC = () => {
     {
       icon: '📚',
       title: 'Clipboard History',
-      description: 'Stores all of your clipboard items so you never lose important copied content.'
+      description: 'Stores up to 50 recent clipboard items so you never lose important copied content.'
     },
     {
       icon: '🖱️',
@@ -18,7 +18,7 @@ const Features: React.FC = () => {
       description: 'Simply click any item in your Cliperton history to instantly copy it back to your clipboard.'
     },
     {
-      icon: '💾',
+      icon: '📦',
       title: 'Save and Load Groups',
       description: 'Create, save, and load groups of clipboard items for different projects or tasks.'
     },

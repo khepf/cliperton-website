@@ -29,14 +29,14 @@ const HowToUse: React.FC = () => {
     {
       number: '5',
       title: 'Manage Items',
-      description: 'Delete individual items with the X button, or use "Clear All" to empty your clipboard history.',
+      description: 'Pin or delete individual items, or use "Clear All" to empty your clipboard history.',
       icon: '🗂️'
     },
     {
       number: '6',
-      title: 'Use Shortcuts',
-      description: 'Press Ctrl+Shift+V anywhere to quickly show or hide the Cliperton window.',
-      icon: '⌨️'
+      title: 'Save and Load Clipboard Groups',
+      description: 'Create, save, and load groups of clipboard items for different projects or tasks.',
+      icon: '💾'
     }
   ];
 
@@ -64,14 +64,6 @@ const HowToUse: React.FC = () => {
               {index < steps.length - 1 && <div className="step-connector"></div>}
             </div>
           ))}
-        </div>
-
-        <div className="keyboard-shortcuts">
-          <h3 className="shortcuts-title">🔧 Keyboard Shortcuts</h3>
-          <div className="shortcut">
-            <kbd className="key-combo">Ctrl</kbd> + <kbd className="key-combo">Shift</kbd> + <kbd className="key-combo">V</kbd>
-            <span className="shortcut-description">Toggle Cliperton window visibility</span>
-          </div>
         </div>
       </div>
     </section>

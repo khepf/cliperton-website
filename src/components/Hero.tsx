@@ -32,19 +32,19 @@ const Hero: React.FC = () => {
           <div className="hero-features">
             <div className="hero-feature">
               <span className="feature-icon">🚀</span>
-              <span>Automatic Monitoring</span>
+              <span>Perfect for AI Prompts</span>
             </div>
             <div className="hero-feature">
               <span className="feature-icon">💾</span>
-              <span>50 Item History</span>
+              <span>Create and Save Your Own Clipboard Groups</span>
             </div>
             <div className="hero-feature">
               <span className="feature-icon">⌨️</span>
-              <span>Global Shortcuts</span>
+              <span>Great for Tedious Copy Paste Tasks</span>
             </div>
             <div className="hero-feature">
               <span className="feature-icon">🖥️</span>
-              <span>Cross-Platform</span>
+              <span>Works On Any Windows 10 or 11 Device</span>
             </div>
           </div>
 

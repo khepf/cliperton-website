@@ -171,7 +171,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
     <section id="download" className="download">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title">Choose Your Version</h2>
+          <h2 className="section-title">Choose Your Path</h2>
           <p className="section-description">
             Start free or unlock premium features
           </p>
@@ -189,14 +189,12 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
             </div>
             <div className="download-features">
               <ul>
-                <li>✅ Clipboard history (50 items)</li>
-                <li>✅ Click to copy</li>
+                <li>✅ Clipboard history access</li>
+                <li>✅ One-click to copy</li>
+                <li>✅ One-click to paste</li>
                 <li>✅ Pin important items</li>
-                <li>✅ Global shortcuts (Ctrl+Shift+V)</li>
-                <li>✅ System tray integration</li>
                 <li>❌ Save clipboard groups</li>
                 <li>❌ Load clipboard groups</li>
-                <li>❌ Import/Export collections</li>
               </ul>
             </div>
             <button 
@@ -228,7 +226,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
             <div className="download-header">
               <h3 className="download-title">
                 <span className="platform-icon">⭐</span>
-                Cliperton Pro
+                Cliperton Pro License
               </h3>
               <p className="download-price">
                 $5 <span className="price-note">one-time</span>
@@ -237,13 +235,11 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
             <div className="download-features">
               <ul>
                 <li>✅ Everything in Free</li>
-                <li>✅ Save clipboard groups to files</li>
+                <li>✅ Save clipboard groups</li>
                 <li>✅ Load saved clipboard groups</li>
-                <li>✅ Import/Export collections</li>
-                <li>✅ Backup & share clipboard history</li>
-                <li>✅ Unlimited clipboard history</li>
+                <li>✅ License emailed to you, just paste into Cliperton</li>
                 <li>✅ Lifetime updates</li>
-                <li>✅ Priority support</li>
+                <li>✅ Fast secure checkout with Stripe</li>
               </ul>
             </div>
             <button 
@@ -281,12 +277,12 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
                 <div>Pro</div>
               </div>
               <div className="comparison-row">
-                <div>Clipboard History</div>
-                <div>50 items</div>
-                <div>Unlimited</div>
+                <div>One-Click Copy</div>
+                <div>✅</div>
+                <div>✅</div>
               </div>
               <div className="comparison-row">
-                <div>Click to Copy</div>
+                <div>One-Click Paste</div>
                 <div>✅</div>
                 <div>✅</div>
               </div>
@@ -295,18 +291,8 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
                 <div>✅</div>
                 <div>✅</div>
               </div>
-              <div className="comparison-row">
-                <div>Global Shortcuts</div>
-                <div>✅</div>
-                <div>✅</div>
-              </div>
               <div className="comparison-row highlight">
                 <div>Save/Load Groups</div>
-                <div>❌</div>
-                <div>✅</div>
-              </div>
-              <div className="comparison-row highlight">
-                <div>Import/Export</div>
                 <div>❌</div>
                 <div>✅</div>
               </div>
