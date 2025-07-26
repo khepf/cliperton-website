@@ -61,29 +61,16 @@ const Hero: React.FC = () => {
         </div>
         
         <div className="hero-visual">
-          <div className="app-window">
-            <div className="window-header">
-              <div className="window-controls">
-                <span className="control control-close"></span>
-                <span className="control control-minimize"></span>
-                <span className="control control-maximize"></span>
-              </div>
-              <span className="window-title">Cliperton</span>
-            </div>
-            <div className="window-content">
-              <div className="clipboard-item">
-                <span className="item-text">Hello, this is copied text!</span>
-                <button className="item-delete">×</button>
-              </div>
-              <div className="clipboard-item">
-                <span className="item-text">https://example.com</span>
-                <button className="item-delete">×</button>
-              </div>
-              <div className="clipboard-item">
-                <span className="item-text">Important note for later</span>
-                <button className="item-delete">×</button>
-              </div>
-            </div>
+          <div className="video-container">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/F1ER753QojE"
+              title="Cliperton Clipboard Manager Demo"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       </div>
