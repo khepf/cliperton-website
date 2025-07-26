@@ -70,41 +70,29 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
     trackButtonClick('download_free_version', 'download_section', 'Download Free');
     
     try {
-      const response = await fetch('/download.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          platform: 'windows',
-          version: '1.0.0',
-          type: 'free'
-        })
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Cliperton Setup.zip';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-        
-        trackDownloadSuccess('free', 'Cliperton Setup.zip', 'windows');
-        
-        setDownloadStatus('success');
-        showSuccess(
-          'Download Started! 📥',
-          'Cliperton Free is downloading. Check your downloads folder.',
-          5000
-        );
-        setTimeout(() => setDownloadStatus(''), 3000);
-      } else {
-        throw new Error('Download failed');
-      }
+      // Create direct download URL with query parameters
+      const downloadUrl = `/download.php?platform=windows&version=1.0.0&type=free&direct=1`;
+      
+      // Create a temporary link and click it to trigger download
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = 'Cliperton Setup.zip';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+      // Track success immediately since we can't wait for the actual download
+      trackDownloadSuccess('free', 'Cliperton Setup.zip', 'windows');
+      
+      setDownloadStatus('success');
+      showSuccess(
+        'Download Started! 📥',
+        'Cliperton Free is downloading. Check your downloads folder.',
+        5000
+      );
+      setTimeout(() => setDownloadStatus(''), 3000);
+      
     } catch (error) {
       console.error('Download error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';

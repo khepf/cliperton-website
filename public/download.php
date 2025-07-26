@@ -25,8 +25,7 @@ $availableDownloads = [
     'windows' => [
         'free' => [
             'file' => 'Cliperton Setup.zip',
-            'mime' => 'application/zip',
-            'size' => filesize($downloadPath . 'Cliperton Setup.zip') ?: 0
+            'mime' => 'application/zip'
         ],
     ]
 ];
@@ -110,25 +109,57 @@ try {
         serveDownload($filePath, $download['file'], $download['mime']);
         
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Return available downloads info
-        $downloads = [];
-        foreach ($availableDownloads as $platform => $types) {
-            $downloads[$platform] = [];
-            foreach ($types as $type => $info) {
-                $filePath = $downloadPath . $info['file'];
-                $downloads[$platform][$type] = [
-                    'available' => file_exists($filePath),
-                    'size' => file_exists($filePath) ? filesize($filePath) : 0,
-                    'file' => $info['file']
-                ];
+        // Handle direct downloads via GET parameters
+        if (isset($_GET['direct']) && $_GET['direct'] == '1') {
+            $platform = $_GET['platform'] ?? '';
+            $version = $_GET['version'] ?? '1.0.0';
+            $type = $_GET['type'] ?? 'free';
+            
+            // Check if platform is supported
+            if (!isset($availableDownloads[$platform])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Unsupported platform']);
+                exit;
             }
+            
+            // Check if download type is supported
+            if (!isset($availableDownloads[$platform][$type])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Unsupported download type']);
+                exit;
+            }
+            
+            $download = $availableDownloads[$platform][$type];
+            $filePath = $downloadPath . $download['file'];
+            
+            // Log the download
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+            $ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+            logDownload($platform . '_' . $type, $userAgent, $ip);
+            
+            // Serve the file directly
+            serveDownload($filePath, $download['file'], $download['mime']);
+        } else {
+            // Return available downloads info
+            $downloads = [];
+            foreach ($availableDownloads as $platform => $types) {
+                $downloads[$platform] = [];
+                foreach ($types as $type => $info) {
+                    $filePath = $downloadPath . $info['file'];
+                    $downloads[$platform][$type] = [
+                        'available' => file_exists($filePath),
+                        'size' => file_exists($filePath) ? filesize($filePath) : 0,
+                        'file' => $info['file']
+                    ];
+                }
+            }
+            
+            echo json_encode([
+                'status' => 'success',
+                'downloads' => $downloads,
+                'version' => '1.0.0'
+            ]);
         }
-        
-        echo json_encode([
-            'status' => 'success',
-            'downloads' => $downloads,
-            'version' => '1.0.0'
-        ]);
     } else {
         http_response_code(405);
         echo json_encode(['error' => 'Method not allowed']);
