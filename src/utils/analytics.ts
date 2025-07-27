@@ -146,3 +146,44 @@ export const trackFeatureView = (featureName: string, section: string) => {
     event_category: 'engagement'
   });
 };
+
+// Google Ads Conversion Tracking
+export const trackGoogleAdsConversion = (conversionId: string, conversionLabel: string, value?: number, currency: string = 'USD', transactionId?: string) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    const conversionData: Record<string, unknown> = {
+      'send_to': `${conversionId}/${conversionLabel}`,
+      'currency': currency
+    };
+    
+    if (value !== undefined) {
+      conversionData.value = value;
+    }
+    
+    if (transactionId) {
+      conversionData.transaction_id = transactionId;
+    }
+    
+    window.gtag('event', 'conversion', conversionData);
+  }
+};
+
+// Track purchase conversion (your main goal)
+export const trackPurchaseConversion = (transactionId: string, value: number = 5.00) => {
+  trackGoogleAdsConversion(
+    'AW-1004230876', // Replace with your Google Ads account ID
+    '4Nd6CPCttvkaENyx7d4D',   // Replace with your purchase conversion label
+    value,
+    'USD',
+    transactionId
+  );
+};
+
+// Track download conversion (secondary goal)
+export const trackDownloadConversion = (downloadType: 'free' | 'pro') => {
+  trackGoogleAdsConversion(
+    'AW-1004230876', // Replace with your Google Ads account ID  
+    'xX3dCJPZyPkaENyx7d4D',   // Replace with your download conversion label
+    downloadType === 'free' ? 1.00 : 5.00,
+    'USD'
+  );
+};

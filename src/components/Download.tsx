@@ -8,7 +8,9 @@ import {
   trackPurchaseSuccess,
   trackPurchaseFailure,
   trackPurchaseCancellation,
-  trackButtonClick 
+  trackButtonClick, 
+  trackPurchaseConversion,
+  trackDownloadConversion
 } from '../utils/analytics';
 import '../styles/Download.css';
 
@@ -34,7 +36,11 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
                          (hash.includes('payment-cancelled') ? 'cancelled' : null);
 
     if (paymentStatus === 'success' || hash.includes('payment-success')) {
+      // Generate a simple unique ID for conversion tracking
+      const conversionId = `purchase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
       trackPurchaseSuccess('Cliperton Pro License', 5, 'usd');
+      trackPurchaseConversion(conversionId, 5.00);
       showSuccess(
         'Payment Successful! 🎉',
         'Your license key has been sent to your email. Check your inbox (and spam folder) for activation instructions.',
@@ -84,6 +90,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
       
       // Track success immediately since we can't wait for the actual download
       trackDownloadSuccess('free', 'Cliperton Setup.zip', 'windows');
+      trackDownloadConversion('free');
       
       setDownloadStatus('success');
       showSuccess(
