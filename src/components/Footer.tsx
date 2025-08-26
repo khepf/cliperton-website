@@ -55,15 +55,6 @@ const Footer: React.FC = () => {
               <li><a href="/privacy.html" onClick={() => handleExternalLink('/privacy.html', 'Privacy Policy')}>Privacy Policy</a></li>
             </ul>
           </div>
-
-          <div className="footer-section">
-            <h4 className="footer-title">Download</h4>
-            <ul className="footer-links">
-              <li><a href="#download" onClick={() => handleInternalLink('download', 'Windows Installer')}>Windows Installer</a></li>
-              <li><span className="coming-soon-text">macOS (Coming Soon)</span></li>
-              <li><span className="coming-soon-text">Linux (Coming Soon)</span></li>
-            </ul>
-          </div>
         </div>
 
         <div className="footer-bottom">

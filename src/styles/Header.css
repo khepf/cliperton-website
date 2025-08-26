@@ -102,7 +102,7 @@
 }
 
 .hamburger-line-open:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* Mobile styles */

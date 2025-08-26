@@ -45,14 +45,14 @@ const Hero: React.FC = () => {
               <span>Great for Tedious Copy Paste Tasks</span>
             </div>
             <div className="hero-feature">
-              <span className="feature-icon">🖥️</span>
-              <span>Works On Any Windows 10 or 11 Device</span>
+              <span className="feature-icon">🏪</span>
+              <span>Available on Microsoft Store</span>
             </div>
           </div>
 
           <div className="hero-actions">
             <button className="btn btn-primary" onClick={scrollToDownload}>
-              Download Now
+              Get from Store
             </button>
             <button className="btn btn-secondary" onClick={scrollToFeatures}>
               Learn More

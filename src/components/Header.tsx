@@ -31,7 +31,6 @@ const Header: React.FC = () => {
           <a href="#home" onClick={() => scrollToSection('home')} className="nav-link">Home</a>
           <a href="#features" onClick={() => scrollToSection('features')} className="nav-link">Features</a>
           <a href="#how-to-use" onClick={() => scrollToSection('how-to-use')} className="nav-link">How to Use</a>
-          <a href="#download" onClick={() => scrollToSection('download')} className="nav-link download-link">Download</a>
         </div>
 
         <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">

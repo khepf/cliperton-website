@@ -88,7 +88,7 @@
 }
 
 .download-features {
-  flex-grow: 1;
+  /* flex-grow: 1; */  /* Removed to eliminate extra white space */
   margin-bottom: 2rem;
 }
 
@@ -139,6 +139,54 @@
   width: 100%;
 }
 
+/* Microsoft Store Badge Styling */
+.store-badge-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  min-height: 60px; /* Match Pro button height */
+}
+
+.microsoft-store-badge-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure the badge has proper spacing */
+.microsoft-store-badge-wrapper ms-store-badge {
+  transition: transform 0.2s ease;
+}
+
+.microsoft-store-badge-wrapper ms-store-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Fallback styling for when badge script doesn't load */
+.microsoft-store-badge-fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.microsoft-store-badge-fallback .store-link {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+}
+
+.microsoft-store-badge-fallback .store-link:hover {
+  transform: scale(1.05);
+}
+
+.microsoft-store-badge-fallback img {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 240px; /* Match Pro button max-width */
+  height: auto;
+}
+
 .btn-download {
   background: linear-gradient(135deg, #6c757d, #5a6268);
   color: white;
@@ -152,11 +200,26 @@
 .btn-primary {
   background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
+  min-height: 80px; 
+  max-width: 280px;
+  margin: 2rem auto 2rem auto; 
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
 }
 
 .btn-primary:hover:not(:disabled) {
   background: linear-gradient(135deg, #2980b9, #21618c);
   transform: translateY(-2px);
+}
+
+/* Purchase icon styling */
+.purchase-icon {
+  font-size: 3.3em;
+  margin-right: 0.5rem;
+  margin-top: -20px;
+  vertical-align: top;
+  line-height: 1;
 }
 
 .btn:disabled {

@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { 
-  trackDownloadAttempt, 
-  trackDownloadSuccess, 
-  trackDownloadFailure,
   trackPurchaseAttempt,
   trackPurchaseSuccess,
   trackPurchaseFailure,
   trackPurchaseCancellation,
   trackButtonClick, 
-  trackPurchaseConversion,
-  trackDownloadConversion
+  trackPurchaseConversion
 } from '../utils/analytics';
+import MicrosoftStoreBadge from './MicrosoftStoreBadge';
 import '../styles/Download.css';
 
 // Initialize Stripe
@@ -24,7 +21,6 @@ interface DownloadProps {
 }
 
 const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo }) => {
-  const [downloadStatus, setDownloadStatus] = useState<string>('');
   const [purchaseStatus, setPurchaseStatus] = useState<string>('');
 
   // Check for payment results when component mounts
@@ -67,52 +63,6 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
       }
     }
   }, [showSuccess, showError, showInfo]);
-
-  const handleFreeDownload = async () => {
-    setDownloadStatus('downloading');
-    
-    // Track free download attempt
-    trackDownloadAttempt('free', 'windows');
-    trackButtonClick('download_free_version', 'download_section', 'Download Free');
-    
-    try {
-      // Create direct download URL with query parameters
-      const downloadUrl = `/download.php?platform=windows&version=1.0.0&type=free&direct=1`;
-      
-      // Create a temporary link and click it to trigger download
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = 'Cliperton Setup.zip';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      
-      // Track success immediately since we can't wait for the actual download
-      trackDownloadSuccess('free', 'Cliperton Setup.zip', 'windows');
-      trackDownloadConversion('free');
-      
-      setDownloadStatus('success');
-      showSuccess(
-        'Download Started! 📥',
-        'Cliperton Free is downloading. Check your downloads folder.',
-        5000
-      );
-      setTimeout(() => setDownloadStatus(''), 3000);
-      
-    } catch (error) {
-      console.error('Download error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      trackDownloadFailure('free', errorMessage, 'windows');
-      setDownloadStatus('error');
-      showError(
-        'Download Failed',
-        'Sorry, we couldn\'t start your download. Please try again or contact support.',
-        8000
-      );
-      setTimeout(() => setDownloadStatus(''), 3000);
-    }
-  };
 
   const handleProPurchase = async () => {
     setPurchaseStatus('processing');
@@ -189,7 +139,7 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
         <div className="section-header">
           <h2 className="section-title">Choose Your Path</h2>
           <p className="section-description">
-            Start free or unlock premium features
+            Get Cliperton from Microsoft Store or unlock premium features
           </p>
         </div>
 
@@ -213,28 +163,18 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
                 <li>❌ Load clipboard groups</li>
               </ul>
             </div>
-            <button 
-              className={`btn btn-download ${downloadStatus === 'downloading' ? 'downloading' : ''}`}
-              onClick={handleFreeDownload}
-              disabled={downloadStatus === 'downloading'}
-            >
-              {downloadStatus === 'downloading' ? (
-                <>
-                  <span className="spinner"></span>
-                  Downloading...
-                </>
-              ) : downloadStatus === 'success' ? (
-                '✅ Downloaded!'
-              ) : downloadStatus === 'error' ? (
-                '❌ Download Failed'
-              ) : (
-                <>
-                  <span className="download-icon">⬇️</span>
-                  Download Free
-                </>
-              )}
-            </button>
-            <p className="download-size">~84 MB</p>
+            <div className="store-badge-container">
+              <MicrosoftStoreBadge
+                productId="9P1KNCV2PLZX"
+                productName="Cliperton"
+                windowMode="direct"
+                theme="auto"
+                size="large"
+                language="en-us"
+                animation="on"
+              />
+            </div>
+            <p className="download-size">Free with automatic updates</p>
           </div>
 
           {/* Pro Version */}
@@ -325,13 +265,13 @@ const Download: React.FC<DownloadProps> = ({ showSuccess, showError, showInfo })
           <h3 className="requirements-title">System Requirements</h3>
           <div className="requirements-grid">
             <div className="requirement">
-              <strong>Operating System:</strong> Windows 10 or later (64-bit)
+              <strong>Operating System:</strong> Windows 10 version 1809 or later
             </div>
             <div className="requirement">
-              <strong>Memory:</strong> 100 MB RAM
+              <strong>Store:</strong> Microsoft Store required
             </div>
             <div className="requirement">
-              <strong>Storage:</strong> 150 MB available space
+              <strong>Storage:</strong> 50 MB available space
             </div>
           </div>
         </div>
